@@ -6,11 +6,15 @@ import random
 import re
 import sys
 
+def dprint(msg):
+    pass
+    print(msg)
+
 # Complete the minimumSwaps function below.
 def minimumSwaps(arr):
     count = 0
     alen = len(arr)
-    print(arr)
+    dprint(arr)
 
     i = 0
     anchor = 0
@@ -20,28 +24,22 @@ def minimumSwaps(arr):
     min_found = arr[anchor]
 
     while anchor < alen:
-        if i >= alen:
-            if min_found_index != anchor:
-                tmp = arr[min_found_index]
-                arr[min_found_index] = arr[anchor]
-                arr[anchor] = tmp
-                no_of_swaps += 1
-                print("from:{} to {}".format(min_found_index, anchor))
-                print("{}".format(arr))
-            anchor += 1
-            i = anchor
-            if anchor < alen:
-                min_found = arr[anchor]
-            continue
-
-        if arr[i] < min_found:
+        if arr[i] < arr[anchor]:
+            dprint("swapping {} to {}".format(arr[i], arr[anchor]))
             tmp = arr[i]
-            min_found = tmp
-            min_found_index = i
+            arr[i] = arr[anchor]
+            arr[anchor] = tmp
+            no_of_swaps += 1
+            dprint(arr)
 
         i += 1
 
-    print(arr)
+        if i == alen:
+            anchor += 1
+            i = anchor
+            dprint("----------------")
+
+    dprint(arr)
     return no_of_swaps
 
 
