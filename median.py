@@ -5,7 +5,7 @@ import bisect
 
 def median_of_list(s):
     n = len(s)
-    #s = sorted(lst)
+
     if n == 1:
         return s[0]
 
@@ -31,18 +31,8 @@ def median(a,x):
     arr = zip(a,x)
     elem_list = []
     elem_dict = {}
-    #for ta, tx in arr:
-    count  = 0
-    while count < len(a):
-        ta = a[count]
-        tx = x[count]
-        #print(ta,tx)
-        '''
-        if tx == 936866298:
-            print(tx)
-            print("tx in elem_dict{}".format(tx not in elem_dict))
-        '''
 
+    for ta, tx in arr:
         if ta == 'r':
             if tx not in elem_dict:
                 print("Wrong!")
@@ -68,15 +58,9 @@ def median(a,x):
                 elem_dict[tx] = 1
 
             bisect.insort(elem_list,tx)
-            #print(elem_list)
             m = median_of_list(elem_list)
             print_it(m)
 
-        count += 1
-        #print("------------")
-        #if count == 6:
-        #   break
-        
 
 N = input()
 s = []
