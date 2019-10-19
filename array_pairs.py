@@ -8,11 +8,7 @@ import sys
 
 # Complete the solve function below.
 def solve(arr):
-    #print(arr)
-    #print("-----------")
-
     count = 0
-    combi = 0
     match = 0
     n = len(arr)
 
@@ -20,27 +16,23 @@ def solve(arr):
         i = count
         ai = arr[count]
         j =  count + 1
+        max_dict = {}
+        max_dict[(i,i)] = arr[i]
         while j < n:
             aj = arr[j]
             prod = ai * aj
-            max_ij = max(arr[i:j+1])
-            # print("{},{} prod={} max={}".format(i+1,j+1,prod,max_ij))
+            max_ij = max(max_dict[(i,j-1)], arr[j])
+            max_dict[(i,j)] = max_ij
             if prod <= max_ij:
-                # print(i+1,j+1)
                 match += 1
             j += 1
-            combi += 1
         count += 1
 
     N = n-1
-    # assert combi == (N*(N+1))/2
-    # print(match)
     return match
 
 
-solve([1, 1, 2, 4, 2])
-
-if __name__ == 'b__main__':
+if __name__ == '__main__':
     fptr = open(os.environ['OUTPUT_PATH'], 'w')
 
     arr_count = int(raw_input())
