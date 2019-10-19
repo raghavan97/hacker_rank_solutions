@@ -8,6 +8,7 @@ import sys
 
 # Complete the solve function below.
 def solve(arr):
+    #print(arr)
     count = 0
     match = 0
     n = len(arr)
@@ -18,19 +19,20 @@ def solve(arr):
         i = count
         ai = arr[count]
         j =  count + 1
-        max_dict = {}
         max_ij = arr[i]
-        combi = 0
         while j < n:
+            # a[i] * a[j] <= max(a[i],a[i+1],.....a[j])
+            print(i+1,j+1)
+            max_ij = max(max_ij, arr[j])
             aj = arr[j]
             prod = ai * aj
-            max_ij = max(max_ij, arr[j])
             if prod <= max_ij:
                 match += 1
             j += 1
         count += 1
 
 
+    print(match)
     return match
 
 
