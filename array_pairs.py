@@ -15,24 +15,29 @@ def solve(arr):
     N = n-1
     total_combi = N*(N+1)/2
 
+    max_vals={}
+
     while count < n:
         i = count
         ai = arr[count]
         j =  count + 1
         max_ij = arr[i]
+        expected_min = max_ij/ai
         while j < n:
             # a[i] * a[j] <= max(a[i],a[i+1],.....a[j])
-            print(i+1,j+1)
-            max_ij = max(max_ij, arr[j])
-            aj = arr[j]
-            prod = ai * aj
-            if prod <= max_ij:
+            if arr[j] > max_ij:
+                max_ij = arr[j]
+                expected_min = max_ij/ai
+
+            if arr[j] <= expected_min:
                 match += 1
+            #print("comparing arr[i]={} arr[j]={} <= expected_min={} match={}".format(ai, arr[j], expected_min,match))
+
             j += 1
         count += 1
 
 
-    print(match)
+    #print(match)
     return match
 
 
