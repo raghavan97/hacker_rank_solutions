@@ -3,6 +3,8 @@
 import sys
 import bisect
 
+# https://www.hackerrank.com/challenges/median/problem
+
 def median_of_list(s):
     n = len(s)
 
