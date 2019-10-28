@@ -16,6 +16,9 @@ class Bucket(object):
     def add_value(self, val):
         self.values.append(val)
 
+    def store_sorted_values(self):
+        self.sorted_values = sorted(self.values)
+
     def __repr__(self):
         bstr = "values={} max_val_index={} max_val={}".format(
             self.values, self.max_val_index, self.max_val
@@ -45,7 +48,7 @@ class ArrayPairs(object):
             i += 1
 
         for b in buckets:
-            #print(b)
+            b.store_sorted_values()
             pass
         self.buckets = buckets
 
@@ -55,9 +58,9 @@ class ArrayPairs(object):
 
     def calc_match_buckets(self, b1, b2):
         match = 0
-        b1_values = sorted(b1.values)
+        b1_values = b1.sorted_values
         for i in b1_values:
-            b2_values = sorted(b2.values)
+            b2_values = b2.sorted_values
             cnt = bisect.bisect_right(b2_values, b2.max_val/i)
             match += cnt
         return match
@@ -70,7 +73,7 @@ class ArrayPairs(object):
         while i < n:
             j = i + 1
             bi = self.buckets[i]
-            #self.calc_match(bi.values)
+            self.calc_match(bi.values)
             while j < n:
                 bj = self.buckets[j]
                 mat = self.calc_match_buckets(bi,bj)
