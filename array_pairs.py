@@ -6,51 +6,50 @@ import random
 import re
 import sys
 
+class ArrayPairs(object):
+    def __init__(self, arr):
+        self.arr = arr
+        self.arr_len = len(arr)
+
+    def populate_DS(self):
+        print(self.arr)
+        i = 0
+        max_val = -1
+        max_val_arr = dict()
+        while i < self.arr_len:
+            if self.arr[i] > max_val:
+                max_val = self.arr[i]
+                max_val_arr[i] = {'max_val': max_val, 'values': []}
+                max_val_index = i
+
+            max_val_arr[max_val_index]['values'].append(self.arr[i])
+            i += 1
+
+
+        self.max_val_arr = max_val_arr
+        self.max_val_arr_keys = self.max_val_arr.keys()
+        self.max_val_arr_keys.sort()
+        for i in self.max_val_arr_keys:
+            self.max_val_arr[i]['values'].sort()
+            print(i,max_val_arr[i])
+
+    def solve2(self):
+        pass
+
+
+    def solve(self):
+        pass
+
+    def run(self):
+        self.populate_DS()
+
+
+
+
 # Complete the solve function below.
 def solve(arr):
-    print(arr)
-    count = 0
-    match = 0
-    n = len(arr)
-    print(n)
-    N = n-1
-    count=N
-    no_of_tests=0
-    while count >= 0:
-        i = count
-        ai = arr[count]
-        j =  count - 1
-        if j >= 0:
-            max_val = arr[i]
-        while j >= 0:
-            if arr[j] > max_val:
-                max_val = arr[j]
-            min_num = max_val/arr[i]
-
-            # there should be atleast one number less than or equal to min_num
-            # on the LHS of j , if there is none , we can break
-            if j:
-                min_lhs = min(arr[0:j])
-            '''
-            if sarr[0] > min_num:
-                #print("{} < {} breaking out".format(min_num, sarr[0]))
-                break
-            '''
-            # a[i] * a[j] <= max(a[i],a[i+1],.....a[j])
-            no_of_tests += 1
-            mflag = False
-            if arr[j]*arr[i] <= max_val:
-                match += 1
-                mflag = True
-            print("trying {},{} max={} min={} min_lhs={} match={}".format(arr[j], ai, max_val, min_num, min_lhs, mflag))
-            j -= 1
-        count -= 1
-
-
-    print(no_of_tests)
-    print(match)
-    return match
-
+    ap = ArrayPairs(arr)
+    ap.run()
 
 if __name__ == '__main__':
     fptr = open(os.environ['OUTPUT_PATH'], 'w')

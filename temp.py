@@ -5,42 +5,21 @@ import os
 import random
 import re
 import sys
+import bisect
 
-class ArrayPairs(object):
-    def __init__(self, arr):
-        self.arr = arr
-
-    def compute_supp_DS(self):
-        max_vals={}
-        count = 0
-        elem_values = {}
-        max_v = arr[count]
-        max_vals[count] = max_v
-        while count < n:
-            elem = arr[count]
-            if elem > max_v:
-                max_v = elem
-                max_vals[count] = max_v
-
-            if elem in elem_values:
-                elem_values[elem].append(elem)
-            else:
-                elem_values[elem] = [count]
-            count += 1
-        self.max_vals = max_vals
-        self.elem_values = elem_values
-
-        self.sorted_elem_list = sorted(elem_values.keys())
-        self.sorted_max_vals_list = sorted(max_vals.keys())
-
-    def get_max_val(self, ind):
-        i = bisect_right(self.sorted_max_vals_list, ind)
-        return self.max_vals[i]
-
-    def find_matches(self, cur_ind):
-        curr_val = self.arr[cur_ind]
-        max_val = self.get_max_val(cur_ind)
-        expected_min = 
+def check_matches_lt(min_num, j, all_elem, keys, prev_ind, rt):
+    i = bisect.bisect_right(keys, min_num)
+    if not i:
+        return 0
+    count = i
+    match = 0
+    while count >= 0:
+        (val, ind) = all_elem[count]
+        print("trying {},{} ind={} min={}".format(val,rt, ind,min_num))
+        if val <= min_num and ind <= j:
+            match += 1
+        count -= 1
+    return match
 
 # Complete the solve function below.
 def solve(arr):
@@ -48,40 +27,54 @@ def solve(arr):
     count = 0
     match = 0
     n = len(arr)
+    print(n)
     N = n-1
-    total_combi = N*(N+1)/2
-
-
-
-
+    count=N
+    all_elem = []
     count = 0
     while count < n:
+        all_elem.append((arr[count],count))
+        count += 1
+    all_elem.sort(key=lambda r: r[0])
+    keys = [r[0] for r in all_elem]
+    print(all_elem)
+    print(keys)
+
+    no_of_tests=0
+    count=N
+    while count >= 0:
         i = count
         ai = arr[count]
-        j =  count + 1
-        max_ij = arr[i]
-        expected_min = max_ij/ai
-        while j < n:
-            # a[i] * a[j] <= max(a[i],a[i+1],.....a[j])
-            if arr[j] > max_ij:
-                max_ij = arr[j]
-                expected_min = max_ij/ai
+        j =  count - 1
+        if j >= 0:
+            max_val = -1
+            prev_ind = -1
+            max_ind = -1
+        while j >= 0:
+            if arr[j] > max_val:
+                max_val = arr[j]
+                prev_ind = max_ind
+                max_ind = j
+            min_num = max_val/arr[i]
 
-            if arr[j] <= expected_min:
-                match += 1
-            #print("comparing arr[i]={} arr[j]={} <= expected_min={} match={}".format(ai, arr[j], expected_min,match))
+            mats = check_matches_lt(min_num, j, all_elem, keys, prev_ind, arr[j])
 
-            j += 1
-        count += 1
+            # there should be atleast one number less than or equal to min_num
+            # on the LHS of j , if there is none , we can break
+            match += mats
+
+            j -= 1
+        count -= 1
 
 
+    print(no_of_tests)
     print(match)
     return match
 
 solve([1, 1, 2, 4, 2])
 sys.exit(0)
 
-if __name__ == '__main__':
+if __name__ == 's__main__':
     fptr = open(os.environ['OUTPUT_PATH'], 'w')
 
     arr_count = int(raw_input())
