@@ -81,27 +81,29 @@ class ArrayPairs(object):
                 j += 1
             i += 1
 
-
-
-
     def calc_match(self, li_values):
         i = 0
         n = len(li_values)
         a = li_values
+        match = 0
+        print("{}".format(n))
         while i < n:
             ai = li_values[i]
             j = i + 1
             max_val = a[i]
+            min_expected = max_val/ai
             while j < n:
                 if a[j] > max_val:
                     max_val = a[j]
+                    min_expected = max_val/ai
                 aj = a[j]
                 #print("trying {},{} max_val={}".format(ai,aj,max_val))
-                if a[i]*a[j] <= max_val:
+                if a[j] <= min_expected:
                     self.match += 1
+                    match += 1
                 j += 1
             i += 1
-
+        return match
 
 
     def run(self):
