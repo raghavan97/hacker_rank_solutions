@@ -5,6 +5,7 @@ import os
 import random
 import re
 import sys
+import bisect
 
 class Bucket(object):
     def __init__(self, max_val, max_val_index):
@@ -30,7 +31,7 @@ class ArrayPairs(object):
         self.match = 0
 
     def populate_DS(self):
-        print(self.arr)
+        #print(self.arr)
         i = 0
         buckets = []
         max_val = -1
@@ -44,7 +45,8 @@ class ArrayPairs(object):
             i += 1
 
         for b in buckets:
-            print(b)
+            #print(b)
+            pass
         self.buckets = buckets
 
 
@@ -56,12 +58,8 @@ class ArrayPairs(object):
         b1_values = sorted(b1.values)
         for i in b1_values:
             b2_values = sorted(b2.values)
-            for j in b2_values:
-                print("Trying {},{}".format(i,j))
-                if i*j <= b2.max_val:
-                    match += 1
-                else:
-                    break
+            cnt = bisect.bisect_right(b2_values, b2.max_val/i)
+            match += cnt
         return match
 
 
@@ -72,7 +70,7 @@ class ArrayPairs(object):
         while i < n:
             j = i + 1
             bi = self.buckets[i]
-            self.calc_match(bi.values)
+            #self.calc_match(bi.values)
             while j < n:
                 bj = self.buckets[j]
                 mat = self.calc_match_buckets(bi,bj)
@@ -95,8 +93,8 @@ class ArrayPairs(object):
                 if a[j] > max_val:
                     max_val = a[j]
                 aj = a[j]
-                print("trying {},{} max_val={}".format(ai,aj,max_val))
-                if a[i]*a[j] < max_val:
+                #print("trying {},{} max_val={}".format(ai,aj,max_val))
+                if a[i]*a[j] <= max_val:
                     self.match += 1
                 j += 1
             i += 1
@@ -106,7 +104,7 @@ class ArrayPairs(object):
     def run(self):
         self.populate_DS()
         self.solve2()
-        print(self.match)
+        #print(self.match)
         return self.match
 
 
@@ -115,7 +113,8 @@ class ArrayPairs(object):
 # Complete the solve function below.
 def solve(arr):
     ap = ArrayPairs(arr)
-    ap.run()
+    ret = ap.run()
+    return ret
 
 #solve([1,3000, 28, 25, 4000, 15, 10, 6000, 24, 23, 8000, 25, 20])
 if __name__ == '__main__':
