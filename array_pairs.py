@@ -88,9 +88,8 @@ class ArrayPairs(object):
         n = len(li_values)
         a = li_values
         match = 0
-        print("{}".format(n))
 
-        if n > 100:
+        if n > 50:
             kk = sorted(li_values)
             num = bisect.bisect_right(kk,1)
             mm = solve(li_values[1:n])
