@@ -69,16 +69,17 @@ class ArrayPairs(object):
 
 
     def solve2(self):
+        mat = 0
         i = 0
         n = len(self.buckets)
         while i < n:
             j = i + 1
             bi = self.buckets[i]
-            self.calc_match(bi.values)
+            self.match += self.calc_match(bi.values)
             while j < n:
                 bj = self.buckets[j]
-                mat = self.calc_match_buckets(bi,bj)
-                self.match += mat
+                ret = self.calc_match_buckets(bi,bj)
+                self.match += ret
                 j += 1
             i += 1
 
@@ -89,13 +90,12 @@ class ArrayPairs(object):
         match = 0
         print("{}".format(n))
 
-        if n > 1000:
+        if n > 100:
             kk = sorted(li_values)
             num = bisect.bisect_right(kk,1)
             mm = solve(li_values[1:n])
             mm += num
-
-
+            return mm
 
         while i < n:
             ai = li_values[i]
@@ -114,10 +114,6 @@ class ArrayPairs(object):
                 j += 1
             i += 1
 
-        if n > 1000:
-            print("mm={}".format(mm))
-            print("match={}".format(match))
-            assert mm == match
         return match
 
 
