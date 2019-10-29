@@ -53,9 +53,6 @@ class ArrayPairs(object):
         self.buckets = buckets
 
 
-    def solve(self):
-        self.calc_match(self.arr)
-
     def calc_match_buckets(self, b1, b2):
         match = 0
         for i in b1.sorted_values:
@@ -69,7 +66,7 @@ class ArrayPairs(object):
         while i < n:
             j = i + 1
             bi = self.buckets[i]
-            self.match += self.calc_match(bi.values)
+            self.match += self.calc_match(bi.values, bi.sorted_values)
             while j < n:
                 bj = self.buckets[j]
                 ret = self.calc_match_buckets(bi,bj)
@@ -77,15 +74,14 @@ class ArrayPairs(object):
                 j += 1
             i += 1
 
-    def calc_match(self, li_values):
+    def calc_match(self, li_values, sorted_values):
         i = 0
         n = len(li_values)
         a = li_values
         match = 0
 
         if n > 50:
-            kk = sorted(li_values)
-            num = bisect.bisect_right(kk,1)
+            num = bisect.bisect_right(sorted_values,1)
             mm = solve(li_values[1:n])
             mm += num
             return mm
