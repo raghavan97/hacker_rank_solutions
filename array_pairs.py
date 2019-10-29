@@ -38,26 +38,6 @@ class ArrayPairs(object):
         i = 0
         buckets = []
         max_val = -1
-        i = self.arr_len-1
-        while i >= 0
-            if self.arr[i] > max_val:
-                max_val = self.arr[i]
-                b = Bucket(max_val, i)
-                buckets.append(b)
-
-            b.add_value(self.arr[i])
-            i += 1
-
-        for b in buckets:
-            b.store_sorted_values()
-            pass
-        self.buckets = buckets
-
-    def populate_DS_old(self):
-        #print(self.arr)
-        i = 0
-        buckets = []
-        max_val = -1
         while i < self.arr_len:
             if self.arr[i] > max_val:
                 max_val = self.arr[i]
@@ -72,9 +52,6 @@ class ArrayPairs(object):
             pass
         self.buckets = buckets
 
-
-    def solve(self):
-        self.calc_match(self.arr)
 
     def calc_match_buckets(self, b1, b2):
         match = 0
@@ -93,7 +70,7 @@ class ArrayPairs(object):
         while i < n:
             j = i + 1
             bi = self.buckets[i]
-            self.calc_match(bi.values)
+            self.calc_match(bi.values, bi.sorted_values)
             while j < n:
                 bj = self.buckets[j]
                 mat = self.calc_match_buckets(bi,bj)
@@ -101,12 +78,21 @@ class ArrayPairs(object):
                 j += 1
             i += 1
 
-    def calc_match(self, li_values):
+    def calc_match(self, li_values, sorted_values):
         i = 0
         n = len(li_values)
         a = li_values
         match = 0
-        print("{}".format(n))
+        #print("{}".format(n))
+
+
+        if n > 5000:
+            bisect.bisect_right
+            max_val = li_values[0]
+            cnt = bisect.bisect_right(sorted_values, 1)
+            mat = solve(li_values[1:n])
+            return mat+cnt
+
         while i < n:
             ai = li_values[i]
             j = i + 1
