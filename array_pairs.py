@@ -50,7 +50,6 @@ class ArrayPairs(object):
 
         for b in buckets:
             b.store_sorted_values()
-            pass
         self.buckets = buckets
 
 
@@ -59,17 +58,12 @@ class ArrayPairs(object):
 
     def calc_match_buckets(self, b1, b2):
         match = 0
-        b1_values = b1.sorted_values
-        for i in b1_values:
-            b2_values = b2.sorted_values
-            cnt = bisect.bisect_right(b2_values, b2.max_val/i)
+        for i in b1.sorted_values:
+            cnt = bisect.bisect_right(b2.sorted_values, b2.max_val/i)
             match += cnt
         return match
 
-
-
     def solve2(self):
-        mat = 0
         i = 0
         n = len(self.buckets)
         while i < n:
@@ -105,10 +99,7 @@ class ArrayPairs(object):
                 if a[j] > max_val:
                     max_val = a[j]
                     min_expected = max_val/ai
-                aj = a[j]
-                #print("trying {},{} max_val={}".format(ai,aj,max_val))
                 if a[j] <= min_expected:
-                    self.match += 1
                     match += 1
                 j += 1
             i += 1
@@ -119,11 +110,7 @@ class ArrayPairs(object):
     def run(self):
         self.populate_DS()
         self.solve2()
-        #print(self.match)
         return self.match
-
-
-
 
 # Complete the solve function below.
 def solve(arr):
