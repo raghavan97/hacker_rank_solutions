@@ -33,27 +33,8 @@ class ArrayPairs(object):
         self.arr_len = len(arr)
         self.match = 0
 
+
     def populate_DS(self):
-        #print(self.arr)
-        i = 0
-        buckets = []
-        max_val = -1
-        i = self.arr_len-1
-        while i >= 0
-            if self.arr[i] > max_val:
-                max_val = self.arr[i]
-                b = Bucket(max_val, i)
-                buckets.append(b)
-
-            b.add_value(self.arr[i])
-            i += 1
-
-        for b in buckets:
-            b.store_sorted_values()
-            pass
-        self.buckets = buckets
-
-    def populate_DS_old(self):
         #print(self.arr)
         i = 0
         buckets = []
@@ -107,6 +88,15 @@ class ArrayPairs(object):
         a = li_values
         match = 0
         print("{}".format(n))
+
+        if n > 1000:
+            kk = sorted(li_values)
+            num = bisect.bisect_right(kk,1)
+            mm = solve(li_values[1:n])
+            mm += num
+
+
+
         while i < n:
             ai = li_values[i]
             j = i + 1
@@ -123,6 +113,11 @@ class ArrayPairs(object):
                     match += 1
                 j += 1
             i += 1
+
+        if n > 1000:
+            print("mm={}".format(mm))
+            print("match={}".format(match))
+            assert mm == match
         return match
 
 
