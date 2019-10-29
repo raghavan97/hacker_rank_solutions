@@ -38,6 +38,26 @@ class ArrayPairs(object):
         i = 0
         buckets = []
         max_val = -1
+        i = self.arr_len-1
+        while i >= 0
+            if self.arr[i] > max_val:
+                max_val = self.arr[i]
+                b = Bucket(max_val, i)
+                buckets.append(b)
+
+            b.add_value(self.arr[i])
+            i += 1
+
+        for b in buckets:
+            b.store_sorted_values()
+            pass
+        self.buckets = buckets
+
+    def populate_DS_old(self):
+        #print(self.arr)
+        i = 0
+        buckets = []
+        max_val = -1
         while i < self.arr_len:
             if self.arr[i] > max_val:
                 max_val = self.arr[i]
