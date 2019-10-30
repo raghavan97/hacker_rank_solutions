@@ -32,6 +32,8 @@ class ArrayPairs(object):
         self.arr = arr
         self.arr_len = len(arr)
         self.match = 0
+        self.cache_hits = 0
+        self.cache = {}
 
 
     def populate_DS(self):
@@ -52,12 +54,56 @@ class ArrayPairs(object):
             b.store_sorted_values()
         self.buckets = buckets
 
+    def get_cache(self, b1, b2):
+        b1_len = len(b1.sorted_values)
+        b2_len = len(b2.sorted_values)
+        if b1_len < b2_len:
+            key_list = [(b1.sorted_values,b2.sorted_values)]
+        elif b1_len > b2_len:
+            key_list = [(b2.sorted_values,b1.sorted_values)]
+        else:
+            key_list = [
+                (b1.sorted_values,b2.sorted_values),
+                (b2.sorted_values,b1.sorted_values)
+            ]
+        for k in key_list:
+            k0 = tuple(k[0])
+            k1 = tuple(k[1])
+            key = (k0,k1)
+            if self.cache.get(key):
+                return self.cache[key]
+        return None
+
+    def set_cache(self, b1, b2, matches):
+        b1_len = len(b1.sorted_values)
+        b2_len = len(b2.sorted_values)
+        if b1_len < b2_len:
+            key_list = [(b1.sorted_values,b2.sorted_values)]
+        elif b1_len > b2_len:
+            key_list = [(b2.sorted_values,b1.sorted_values)]
+        else:
+            key_list = [
+                (b1.sorted_values,b2.sorted_values),
+                (b2.sorted_values,b1.sorted_values)
+            ]
+        for k in key_list:
+            k0 = tuple(k[0])
+            k1 = tuple(k[1])
+            key = (k0,k1)
+            self.cache[key] = matches
+
 
     def calc_match_buckets(self, b1, b2):
         match = 0
+        ret = self.get_cache(b1,b2)
+        if ret is not None:
+            self.cache_hits += 1
+            return ret
+        print(self.cache)
         for i in b1.sorted_values:
             cnt = bisect.bisect_right(b2.sorted_values, b2.max_val/i)
             match += cnt
+        ret = self.set_cache(b1,b2,match)
         return match
 
     def solve2(self):
@@ -106,6 +152,7 @@ class ArrayPairs(object):
     def run(self):
         self.populate_DS()
         self.solve2()
+        print("Cache hits={}".format(self.cache_hits))
         return self.match
 
 # Complete the solve function below.
@@ -114,8 +161,20 @@ def solve(arr):
     ret = ap.run()
     return ret
 
+def debug_main(fname):
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+    with open(fname, 'r') as fd:
+        arr_count = int(fd.readline())
+        line = fd.readline().split()
+        arr = [int(i) for i in line]
+    result = solve(arr)
+    fptr.write(str(result) + '\n')
+    fptr.close()
+
+debug_main(sys.argv[1])
+
 #solve([1,3000, 28, 25, 4000, 15, 10, 6000, 24, 23, 8000, 25, 20])
-if __name__ == '__main__':
+if __name__ == 'b__main__':
     fptr = open(os.environ['OUTPUT_PATH'], 'w')
 
     arr_count = int(raw_input())
