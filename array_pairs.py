@@ -28,6 +28,7 @@ class Bucket(object):
 
 
 class ArrayPairs(object):
+    FIRST_TIME = True
     def __init__(self, arr):
         self.orig_arr = arr
         self.orig_arr_len = len(arr)
@@ -37,23 +38,27 @@ class ArrayPairs(object):
 
     def populate_DS(self):
 
-        i=0
-        n = len(self.orig_arr)
-        no_of_ones = 0
-        while i < n:
-            if self.orig_arr[i] == 1:
-                no_of_ones += 1 
-            else:
-                self.arr.append(self.orig_arr[i])
-            i += 1
+        # The very first time , we get input, just remove all the
+        # ones in there and calculate matches
+        if ArrayPairs.FIRST_TIME:
+            i=0
+            n = len(self.orig_arr)
+            no_of_ones = 0
+            while i < n:
+                if self.orig_arr[i] == 1:
+                    no_of_ones += 1 
+                else:
+                    self.arr.append(self.orig_arr[i])
+                i += 1
 
-        no_of_terms = no_of_ones
-        highest = len(self.orig_arr) - 1
-        least = highest - no_of_terms + 1
-        self.match += ((no_of_terms)*(highest+least))/2
-        #print(self.match)
+            no_of_terms = no_of_ones
+            highest = len(self.orig_arr) - 1
+            least = highest - no_of_terms + 1
+            self.match += ((no_of_terms)*(highest+least))/2
+            ArrayPairs.FIRST_TIME = False
+        else:
+            self.arr = self.orig_arr
 
-        #self.arr = self.orig_arr
         self.arr_len = len(self.arr)
 
         #print(self.arr)
@@ -101,6 +106,8 @@ class ArrayPairs(object):
         a = li_values
         match = 0
 
+        # if it is just one number throughout , then no matches
+        # are possible
         if sorted_values[0] == sorted_values[len(sorted_values)-1]:
             return 0
 
