@@ -7,6 +7,8 @@ import re
 import sys
 import bisect
 
+# https://www.hackerrank.com/challenges/array-pairs/problem
+
 class Bucket(object):
     def __init__(self, max_val, max_val_index):
         self.max_val = max_val
